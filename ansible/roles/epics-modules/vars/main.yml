@@ -46,6 +46,37 @@ epics_modules:
       - crb
     pre_hook: asyn_prep.yml
 
+  busy:
+    name: "Busy"
+    version: "1.7.4"
+    url: "https://github.com/epics-modules/busy/archive/refs/tags/R1-7-4.tar.gz"
+    release_var: "BUSY"
+    release_sortkey: "10"
+    pre_hook: remove_support_prep.yml
+
+  autosave:
+    name: "Autosave"
+    version: "5.11"
+    url: "https://github.com/epics-modules/autosave/archive/refs/tags/R5-11.tar.gz"
+    release_var: "AUTOSAVE"
+    release_sortkey: "10"
+    pre_hook: remove_support_prep.yml
+
+  sscan:
+    name: "SScan"
+    version: "2.11.6"
+    url: "https://github.com/epics-modules/sscan/archive/refs/tags/R2-11-6.tar.gz"
+    release_var: "SSCAN"
+    release_sortkey: "10"
+    pre_hook: remove_support_prep.yml
+
+  calc:
+    name: "Calc"
+    version: "3.7.5"
+    url: "https://github.com/epics-modules/calc/archive/refs/tags/R3-7-5.tar.gz"
+    release_var: "CALC"
+    release_sortkey: "10"
+
   adcore:
     name: "AreaDetector - Core"
     version: "3.13"

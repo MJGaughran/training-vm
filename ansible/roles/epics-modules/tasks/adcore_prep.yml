@@ -5,11 +5,24 @@
     search_string: '-include $(TOP)/RELEASE.local'
     line: '-include $(TOP)/../RELEASE.local'
   become: true
+
+- name: "{{ epics_modules[item].name }} | Setup common plugins"
+  ansible.builtin.copy:
+    src: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocBoot/EXAMPLE_commonPlugins.cmd"
+    dest: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocBoot/commonPlugins.cmd"
+  become: true
+
+- name: "{{ epics_modules[item].name }} | Setup common plugins request file"
+  ansible.builtin.copy:
+    src: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocBoot/EXAMPLE_commonPlugin_settings.req"
+    dest: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocBoot/commonPlugin_settings.req"
+  become: true
   
 - name: "{{ epics_modules[item].name }} | Add configuration to configure/CONFIG_SITE"
   ansible.builtin.blockinfile:
     path: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/configure/CONFIG_SITE"
-    marker: "\n# {mark} ANSIBLE MANAGED BLOCK"
+    insertbefore: "BOF"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
       WITH_ZLIB = YES
       WITH_TIFF = YES

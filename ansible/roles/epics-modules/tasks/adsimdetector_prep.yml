@@ -5,3 +5,26 @@
     search_string: '-include $(TOP)/RELEASE.local'
     line: '-include $(TOP)/../RELEASE.local'
   become: true
+
+- name: "{{ epics_modules[item].name }} | Fix configure/CONFIG_SITE to build IOCs"
+  ansible.builtin.lineinfile:
+    path: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/configure/CONFIG_SITE"
+    line: 'BUILD_IOCS=YES'
+    insertbefore: 'BOF'
+    state: 'present'
+  become: true
+
+- name: "{{ epics_modules[item].name }} | Fix IOC configure/RELEASE to include RELEASE.local"
+  ansible.builtin.lineinfile:
+    path: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocs/simDetectorIOC/configure/RELEASE"
+    search_string: '-include $(TOP)/RELEASE.local'
+    line: '-include $(TOP)/../../../RELEASE.local'
+  become: true
+
+- name: "{{ epics_modules[item].name }} | Fix IOC autosave directory to allow anyone to have write access"
+  ansible.builtin.file:
+    path: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/iocs/simDetectorIOC/iocBoot/iocSimDetector/autosave"
+    state: 'directory'
+    mode: 'a+rwx'
+    recurse: 'yes'
+  become: true

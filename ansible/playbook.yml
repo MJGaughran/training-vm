@@ -14,4 +14,8 @@
       tags: epics_modules
       when: epics_modules
 
+    - role: epics-tools
+      tags: epics_tools
+      when: epics_tools
+
   environment: "{{ proxy_env }}"

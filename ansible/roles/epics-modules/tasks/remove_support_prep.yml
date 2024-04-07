@@ -1,0 +1,7 @@
+---
+- name: "{{ epics_modules[item].name }} | Fix configure/RELEASE to remove SUPPORT definition that conflicts between modules"
+  ansible.builtin.lineinfile:
+    path: "{{ epics_install_path }}/{{ item }}-{{ epics_modules[item].version }}/configure/RELEASE"
+    regexp: 'SUPPORT=*'
+    state: absent
+  become: true
